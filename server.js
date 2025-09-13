@@ -42,11 +42,11 @@ app.post("/stands", async (req, res) => {
 })
 
 // Edit
-app.put("/stands/:id", async (req, res) => {
+app.put("/stands/:name", async (req, res) => {
     try {
         const db = await connect()
         const result = await db.collection("stands").updateOne(
-            { _id: new ObjectId(req.params.id) },
+            { "data.pageName": req.params.name },
             { $set: req.body }
         )
         res.json({ modifiedCount: result.modifiedCount })
@@ -57,11 +57,11 @@ app.put("/stands/:id", async (req, res) => {
 })
 
 // Delete
-app.delete("/stands/:id", async (req, res) => {
+app.delete("/stands/:name", async (req, res) => {
     try {
         const db = await connect()
         const result = await db.collection("stands").deleteOne(
-            { _id: new ObjectId(req.params.id) }
+            { "data.pageName": req.params.name }
         )
         res.json({ deletedCount: req.deletedCount })
     } catch (e) {
