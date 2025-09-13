@@ -74,8 +74,8 @@ app.get("/admins/:userId", async (req, res) => {
     const db = await connect()
     const adm = await db.collection("admins")
         .findOne({ userId: req.params.userId })
-    if (!adm) return false
-    return true
+    if (!adm) return res.status(404).json({ error: "not found"})
+    res.json(adm)
 })
 
 app.listen(PORT, () => { console.log(`Listening on ${PORT}`) })
