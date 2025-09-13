@@ -10,10 +10,10 @@ app.use(cors({
 }))
 const PORT = process.env.PORT || 3000
 
-app.get("/health", (res) => res.json({ ok: true }))
+app.get("/health", (req, res) => res.json({ ok: true }))
 
 // Select all
-app.get("/stands", async (res) => {
+app.get("/stands", async (req, res) => {
     const db = await connect()
     const docs = await db.collection("stands").find().toArray()
     res.json(docs)
