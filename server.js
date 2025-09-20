@@ -72,7 +72,7 @@ app.delete("/stands/:name", async (req, res) => {
 
 app.get("/admins/:userId", async (req, res) => {
     const db = await connect()
-    const adm = await db.collection("admins")
+    const adm = await db.collection("users")
         .findOne({ userId: req.params.userId })
     if (!adm) return res.status(404).json({ error: "not found"})
     res.json(adm)
