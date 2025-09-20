@@ -80,14 +80,12 @@ app.get("/users/:userId", async (req, res) => {
 })
 
 // Insert User
-app.put("/users/:id", async (req, res) => {
+app.post("/users", async (req, res) => {
     try {
         const db = await connect()
-        const result = await db.collection("users").updateOne(
-            { "data.pageName": req.params.name },
-            { $set: req.body }
-        )
-        res.json({ modifiedCount: result.modifiedCount })
+        const body = req.body
+        const result = await db.collection("users").insertOne(body)
+        res.status(201).json({ insertedId: result.insertedId })
     } catch (e) {
         console.error(e)
         res.status(500).json({ error: "internal" })
