@@ -70,7 +70,7 @@ app.delete("/stands/:name", async (req, res) => {
     }
 })
 
-app.get("/admins/:userId", async (req, res) => {
+app.get("/users/:userId", async (req, res) => {
     const db = await connect()
     const adm = await db.collection("users")
         .findOne({ userId: req.params.userId })
