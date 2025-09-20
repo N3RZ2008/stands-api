@@ -70,12 +70,28 @@ app.delete("/stands/:name", async (req, res) => {
     }
 })
 
+// Select User
 app.get("/users/:userId", async (req, res) => {
     const db = await connect()
     const adm = await db.collection("users")
         .findOne({ userId: req.params.userId })
     if (!adm) return res.status(404).json({ error: "not found"})
     res.json(adm)
+})
+
+// Insert User
+app.put("/users/:id", async (req, res) => {
+    try {
+        const db = await connect()
+        const result = await db.collection("users").updateOne(
+            { "data.pageName": req.params.name },
+            { $set: req.body }
+        )
+        res.json({ modifiedCount: result.modifiedCount })
+    } catch (e) {
+        console.error(e)
+        res.status(500).json({ error: "internal" })
+    }
 })
 
 app.listen(PORT, () => { console.log(`Listening on ${PORT}`) })
